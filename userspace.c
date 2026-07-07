@@ -26,5 +26,27 @@ void initialize_array(double *arr) {
         5.9, 31.6, 59.4, 71.8, 86.5
     };
 
+for (int i = 0; i < ARRAY_SIZE; i++) {
+        arr[i] = init_vals[i];
+    }
+}
+
+void print_memory_info(double *arr, size_t pagesize) {
+    printf("\nthe array holds values ranging from 0.0-100.0\n");
+    printf("Size of double: %zu bytes (%zu bits)\n", sizeof(double), sizeof(double) * 8);
+    printf("Size of array: %zu bytes\n", ARRAY_SIZE * sizeof(double));
+    printf("Virtual base Address: %p\n", (void *)arr);
+    printf("Page Size: %ld bytes\n", pagesize);
+}
+
+uint64_t get_page_info(uint64_t vaddr, size_t pagesize) {
+    uint64_t page_info;
+    uint64_t pgnum = (vaddr / pagesize) * sizeof(uint64_t);
+
+    FILE *pagemap = fopen("/proc/self/pagemap", "rb");
+    if (!pagemap) {
+        perror("Run with sudo! Could not open pagemap");
+        return 0;
+    }
 
 
