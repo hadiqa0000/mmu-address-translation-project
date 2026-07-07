@@ -48,5 +48,13 @@ uint64_t get_page_info(uint64_t vaddr, size_t pagesize) {
         perror("Run with sudo! Could not open pagemap");
         return 0;
     }
+    
+    fseek(pagemap, pgnum, SEEK_SET);
+    fread(&page_info, sizeof(uint64_t), 1, pagemap);
+    fclose(pagemap);
+
+    return page_info;
+}
+
 
 
