@@ -60,6 +60,7 @@ uint64_t get_page_info(uint64_t vaddr, size_t pagesize) {
 uint64_t get_physical_address(uint64_t page_info, uint64_t vaddr, size_t pagesize) {
     uint64_t pfn = page_info & ((1ULL << 55) - 1);
     return (pfn * pagesize) + (vaddr % pagesize);
+    
 }
 
 
