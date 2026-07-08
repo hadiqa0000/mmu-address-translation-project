@@ -71,21 +71,16 @@ int main() {
     if (!ptr) {
         return 1;
     }
-    
-void initialize_array(double *arr) {
-    double init_vals[ARRAY_SIZE] = {
-        12.5, 23.7, 45.2, 67.8, 89.1,
-        34.6, 56.3, 78.9, 91.2, 15.4,
-        27.9, 48.5, 73.1, 84.6, 95.3,
-        19.2, 38.7, 62.4, 77.5, 88.0,
-        42.1, 53.8, 69.3, 81.7, 94.2,
-        5.9, 31.6, 59.4, 71.8, 86.5
-    };
+     double *arr = (double *)ptr;
 
-    for (int i = 0; i < ARRAY_SIZE; i++) {
-        arr[i] = init_vals[i];
+    initialize_array(arr);
+
+    if (mlock(arr, ARRAY_SIZE * sizeof(double)) != 0) {
+        perror("mlock failed");
     }
-}
+
+    print_memory_info(arr, pagesize);
+
 
 
 
