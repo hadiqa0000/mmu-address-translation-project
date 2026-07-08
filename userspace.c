@@ -64,3 +64,13 @@ uint64_t get_physical_address(uint64_t page_info, uint64_t vaddr, size_t pagesiz
 }
 
 
+int main() {
+    size_t pagesize = sysconf(_SC_PAGESIZE);
+    void *ptr = allocate_aligned_memory(pagesize);
+
+    if (!ptr) {
+        return 1;
+    }
+
+
+
