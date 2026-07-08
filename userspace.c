@@ -80,7 +80,45 @@ int main() {
     }
 
     print_memory_info(arr, pagesize);
+    
+    int64_t vaddr = (uintptr_t)arr;
+   
+    
+   
+    printf("\n--- Array Elements, Values, and Address Mappings ---\n");
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        uint64_t element_vaddr = (uintptr_t)&arr[i];
+        uint64_t element_page_info = get_page_info(element_vaddr, pagesize);
+        uint64_t element_paddr = get_physical_address(element_page_info, element_vaddr, pagesize);
+        
+        printf("arr[%2d] = %4.1f | Virtual: %p | Physical: 0x%lx\n", 
+               i, arr[i], (void *)element_vaddr, element_paddr);
+    }
+    
+     uint64_t page_info = get_page_info(vaddr, pagesize);
+    
 
+    printf("Raw page_info for base address: 0x%lx\n", page_info);
+   
+ if (!(page_info & (1ULL << 63))) {
+        printf("Page not present in RAM!\n");
+        munlock(arr, ARRAY_SIZE * sizeof(double));
+        free(ptr);
+        return 1;
+    }
+
+    uint64_t paddr = get_physical_address(page_info, vaddr, pagesize);
+    printf("Base Physical Address: 0x%lx\n", paddr);
+    printf("----------------------------------------------------\n\n");
+
+    printf("Press Enter to exit...");
+    getchar();
+
+    munlock(arr, ARRAY_SIZE * sizeof(double));
+    free(arr);
+
+    return 0;
+}
 
 
 
