@@ -27,3 +27,20 @@ fi
 
 
 sudo insmod ${MODULE_NAME}.ko phys_addr=$PHYS_ADDR
+
+
+udo dmesg | tail -n 5
+
+HEX_STRING=$(sudo dmesg | grep "Hex dump:" | tail -n 1 | awk -F "Hex dump: " '{print $2}')
+
+if [ -n "$HEX_STRING" ]; then
+    echo "Extracted Hex: $HEX_STRING"
+    echo -n "Decoded Floats: "
+    echo "$HEX_STRING" | xxd -r -p | od -An -t fD | awk '{$1=$1; print}'
+else
+    echo "❌ Could not find 'Hex dump:' in dmesg logs."
+fi
+
+
+sudo rmmod $MODULE_NAME
+
