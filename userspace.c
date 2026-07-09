@@ -8,11 +8,12 @@
 
 
 #define ARRAY_SIZE 30
-
+void *allocate_aligned_memory(size_t pagesize) {
     void *ptr;
     if (posix_memalign(&ptr, pagesize, ARRAY_SIZE * sizeof(double)) != 0) {
         perror("Alignment failed");
         return NULL;
+        }
     return ptr;
 }
 
@@ -119,6 +120,7 @@ int main() {
 
     return 0;
 }
+
 
 
 
