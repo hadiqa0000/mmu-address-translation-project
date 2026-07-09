@@ -15,3 +15,13 @@ if [ -z "$1" ]; then
 fi
 
 PHYS_ADDR=$1
+
+make clean > /dev/null 2>&1 || true
+make
+
+
+if lsmod | grep -q "$MODULE_NAME"; then
+   
+    sudo rmmod $MODULE_NAME
+fi
+
