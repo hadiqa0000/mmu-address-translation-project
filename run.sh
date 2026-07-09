@@ -25,3 +25,5 @@ if lsmod | grep -q "$MODULE_NAME"; then
     sudo rmmod $MODULE_NAME
 fi
 
+
+sudo insmod ${MODULE_NAME}.ko phys_addr=$PHYS_ADDR
